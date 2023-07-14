@@ -1,5 +1,4 @@
 "use client"
-import ItemTableComponent from "@/components/ItemTableComponent";
 import LoadingPage from "@/components/LoadingPage";
 import PublicMenuItem from "@/components/PublicMenuItem";
 import UploadPublicModalComponent from "@/components/UploadPublicModalComponent";
@@ -55,6 +54,12 @@ export default function Share(props: { params: { item_id: string } }) {
     }
     return <>
         <div className="relative p-2 mt-8">
+            <div className="mx-auto lg:w-[500px] w-full text-center">
+                <Link href={'/'}>
+                    <h1 className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#30c5d2] to-[#471069] p-2'>eThings</h1>
+                </Link>
+                <p className='text-xs lg:text-sm font-semibold text-gray-600'>Fast and Easy Storage Solutions for Your Digital World</p>
+            </div>
             <div className="relative mt-5 rounded-lg bg-base-100 drop-shadow p-3 mx-auto lg:w-[500px] w-full">
                 <div className="flex justify-between items-center">
                     <div className="text-sm breadcrumbs">

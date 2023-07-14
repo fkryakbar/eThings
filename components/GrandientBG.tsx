@@ -1,6 +1,6 @@
 export default function Gradient() {
     return <>
-        <div className="absolute left-0 top-0 -z-10 h-full w-full overflow-hidden">
+        <div className="absolute left-0 top-0 -z-10 min-h-screen h-fit w-full overflow-hidden">
             <div
                 className="pointer-events-none absolute inset-x-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                 aria-hidden="true"
