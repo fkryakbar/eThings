@@ -115,7 +115,13 @@ export default function SharingModal(props: { isOpen: boolean, setIsOpen: any, i
                                 <div className="form-control">
                                     <label className="cursor-pointer flex items-center gap-2 my-1" >
                                         <input type="radio" name="radio-10" className="radio checked:bg-blue-500" defaultChecked={itemData.access == 'public'} disabled={isLoading} onChange={e => setTo('public')} />
-                                        <span className="label-text">Public</span>
+                                        <span className="label-text">Public (People only can read)</span>
+                                    </label>
+                                </div>
+                                <div className="form-control">
+                                    <label className="cursor-pointer flex items-center gap-2 my-1" >
+                                        <input type="radio" name="radio-10" className="radio checked:bg-blue-500" defaultChecked={itemData.access == 'open'} disabled={isLoading} onChange={e => setTo('open')} />
+                                        <span className="label-text">Open (People can Upload, update, delete)</span>
                                     </label>
                                 </div>
                                 <div className="flex gap-2 justify-between mt-3">

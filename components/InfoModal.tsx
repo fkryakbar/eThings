@@ -58,7 +58,14 @@ export default function InfoModal(props: { isOpen: boolean, setIsOpen: any, item
                                         </tr>
                                         <tr>
                                             <td className="font-semibold">Owner</td>
-                                            <td>: {itemData.user.name}</td>
+                                            {
+                                                itemData.user ? (<>
+                                                    <td>: {itemData.user.name}</td>
+
+                                                </>) : (<>
+                                                    <td>: {itemData.user_id}</td>
+                                                </>)
+                                            }
                                         </tr>
                                         <tr>
                                             <td className="font-semibold">Size</td>

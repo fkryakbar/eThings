@@ -2,6 +2,7 @@
 import ItemTableComponent from "@/components/ItemTableComponent";
 import LoadingPage from "@/components/LoadingPage";
 import PublicMenuItem from "@/components/PublicMenuItem";
+import UploadPublicModalComponent from "@/components/UploadPublicModalComponent";
 import { ItemData } from "@/types/ItemData";
 import { Dialog, Menu, Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
@@ -26,6 +27,7 @@ const fetcher = (url: string) => fetch(url, {
 
 })
 export default function Share(props: { params: { item_id: string } }) {
+    let [isUploadOpen, setIsUploadOpen] = useState(false)
     const [folder, setFolder] = useState('root')
 
     const router = useRouter()
@@ -57,7 +59,11 @@ export default function Share(props: { params: { item_id: string } }) {
                 <div className="flex justify-between items-center">
                     <div className="text-sm breadcrumbs">
                         <ul>
-                            <li><p className="font-semibold">{data.folder.name}</p></li>
+                            {
+                                !error ? (<>
+                                    <li><p className="font-semibold">{data.folder.name}</p></li>
+                                </>) : <li><p className="font-semibold">Access Denied</p></li>
+                            }
                             {
                                 folder != 'root' ? (<>
                                     <li><p>{folder}</p></li>
@@ -65,35 +71,79 @@ export default function Share(props: { params: { item_id: string } }) {
                             }
                         </ul>
                     </div>
-                    <Popover className="relative">
-                        <Popover.Button className={'btn bg-white btn-sm focus:outline-none'}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                            </svg>
-                        </Popover.Button>
-                        <Popover.Panel className="absolute z-10 bg-white drop-shadow p-3 rounded w-80 right-0">
-                            <table className="w-full text-sm">
-                                <tbody>
-                                    <tr>
-                                        <td className="font-semibold">Owner</td>
-                                        <td>{data.folder.user.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">Access</td>
-                                        <td>{data.folder.access}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">Created at</td>
-                                        <td>{dateConvert(data.folder.created_at)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">Last Update</td>
-                                        <td>{dateConvert(data.folder.updated_at)}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </Popover.Panel>
-                    </Popover>
+                    <div className="flex gap-2 items-center">
+                        {
+                            !error ? (<>
+                                {
+                                    data.folder.access == 'open' ? (<>
+                                        <UploadPublicModalComponent isOpen={isUploadOpen} setIsOpen={setIsUploadOpen} />
+                                        <Menu as="div" className="relative inline-block text-left z-[10000]">
+                                            <Menu.Button className={'btn bg-white btn-sm'}>
+                                                +
+                                            </Menu.Button>
+                                            <Transition
+                                                as={Fragment}
+                                                enter="transition ease-out duration-100"
+                                                enterFrom="transform opacity-0 scale-95"
+                                                enterTo="transform opacity-100 scale-100"
+                                                leave="transition ease-in duration-75"
+                                                leaveFrom="transform opacity-100 scale-100"
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
+                                                <Menu.Items className="absolute right-0 w-56 origin-top-right rounded-md bg-white drop-shadow ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <Menu.Item as={'div'} className={''} onClick={e => setIsUploadOpen(true)}>
+                                                        {({ active }) => (
+                                                            <button className={`flex gap-2 w-full hover:bg-gray-200 px-2 py-2 ${active ? 'bg-gray-200' : ''}`}>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                                                                </svg>
+                                                                <p>Upload</p>
+                                                            </button>
+                                                        )}
+                                                    </Menu.Item>
+                                                </Menu.Items>
+                                            </Transition>
+                                        </Menu>
+                                    </>) : null
+                                }
+                            </>) : null
+                        }
+                        {
+                            !error ? (
+                                <>
+                                    <Popover className="relative">
+                                        <Popover.Button className={'btn bg-white btn-sm focus:outline-none'}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                            </svg>
+                                        </Popover.Button>
+                                        <Popover.Panel className="absolute z-10 bg-white drop-shadow p-3 rounded w-80 right-0">
+                                            <table className="w-full text-sm">
+                                                <tbody>
+                                                    <tr>
+                                                        <td className="font-semibold">Owner</td>
+                                                        <td>{data.folder.user.name}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="font-semibold">Access</td>
+                                                        <td>{data.folder.access}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="font-semibold">Created at</td>
+                                                        <td>{dateConvert(data.folder.created_at)}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="font-semibold">Last Update</td>
+                                                        <td>{dateConvert(data.folder.updated_at)}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </Popover.Panel>
+                                    </Popover>
+                                </>
+                            ) : null
+                        }
+                    </div>
                 </div>
                 <div className="mt-4">
                     {
@@ -156,7 +206,7 @@ export default function Share(props: { params: { item_id: string } }) {
                                                                 </td>
                                                                 <td className="relative">
                                                                     <div className="relative">
-                                                                        <PublicMenuItem item={item} />
+                                                                        <PublicMenuItem item={item} folder_data={data.folder} />
                                                                     </div>
 
                                                                 </td>

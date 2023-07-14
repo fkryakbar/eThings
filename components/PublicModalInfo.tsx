@@ -56,7 +56,14 @@ export default function PublicModalInfo({ openInfo, setOpenInfo, item }: { openI
                                         </tr>
                                         <tr>
                                             <td className="font-semibold">Owner</td>
-                                            <td>: {item.user.name}</td>
+                                            {
+                                                item.user ? (<>
+                                                    <td>: {item.user.name}</td>
+
+                                                </>) : (<>
+                                                    <td>: {item.user_id}</td>
+                                                </>)
+                                            }
                                         </tr>
                                         <tr>
                                             <td className="font-semibold">Size</td>
