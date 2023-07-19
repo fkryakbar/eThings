@@ -29,7 +29,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 
 export default function Page(props: { params: { item_id: string } }) {
-    console.log(props);
 
     return <ClientComponent item_id={props.params.item_id} />
 }
