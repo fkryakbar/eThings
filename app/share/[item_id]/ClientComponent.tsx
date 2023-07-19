@@ -188,7 +188,7 @@ export default function Share({ item_id }: { item_id: string }) {
                                                 {
                                                     data.data.map((item: ItemData, key: number) => {
                                                         return (
-                                                            <tr key={key} className="hover:bg-gray-100 transition-all group cursor-pointer" onDoubleClick={e => { handleDoubleClick(e, item) }}>
+                                                            <tr key={key} className="hover:bg-gray-100 transition-all group cursor-pointer select-none" onDoubleClick={e => { handleDoubleClick(e, item) }}>
                                                                 <th>
                                                                     {
                                                                         item.type == 'folder' ? (
