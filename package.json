@@ -21,6 +21,7 @@
     "eslint-config-next": "13.4.8",
     "js-file-download": "^0.4.12",
     "next": "13.4.8",
+    "next-nprogress-bar": "^2.0.3",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -1,3 +1,4 @@
+import ProgressProvider from '@/components/ProgressProvider'
 import './globals.css'
 
 
@@ -13,7 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="light">
-      <body>{children}</body>
+      <body>
+        <ProgressProvider>
+          {children}
+        </ProgressProvider>
+      </body>
     </html>
   )
 }
